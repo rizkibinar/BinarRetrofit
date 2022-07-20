@@ -1,4 +1,4 @@
-package id.co.rizki.binarretrofit
+package id.co.rizki.binarretrofit.model
 
 
 import com.google.gson.annotations.SerializedName

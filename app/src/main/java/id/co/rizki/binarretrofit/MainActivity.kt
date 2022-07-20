@@ -1,11 +1,13 @@
 package id.co.rizki.binarretrofit
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.co.rizki.binarretrofit.databinding.ActivityMainBinding
+import id.co.rizki.binarretrofit.model.ResponseGetItem
 
 class MainActivity : AppCompatActivity(), MainPresenter.Listener {
 
@@ -36,6 +38,10 @@ class MainActivity : AppCompatActivity(), MainPresenter.Listener {
         binding.rvContent.setHasFixedSize(true)
         binding.rvContent.layoutManager = LinearLayoutManager(this)
         binding.rvContent.adapter = adapter
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(this,NewPostActivity::class.java))
+        }
 
     }
 

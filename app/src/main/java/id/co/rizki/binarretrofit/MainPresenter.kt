@@ -1,5 +1,6 @@
 package id.co.rizki.binarretrofit
 
+import id.co.rizki.binarretrofit.model.ResponseGetItem
 import id.co.rizki.binarretrofit.network.ApiClient
 import retrofit2.Call
 import retrofit2.Callback

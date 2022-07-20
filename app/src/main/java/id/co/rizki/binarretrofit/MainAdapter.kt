@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.co.rizki.binarretrofit.databinding.ItemContentBinding
+import id.co.rizki.binarretrofit.model.ResponseGetItem
 
 
 /**
