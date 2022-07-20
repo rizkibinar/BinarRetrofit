@@ -13,6 +13,7 @@ object ApiClient {
 
 //    pastiin base url di akhiri tanda / (slash) "
     private const val BASE_URL = "http://reduxblog.herokuapp.com/"
+    private const val BASE_URL_NEWS = "http://reduxblog.herokuapp.com/"
 
     val instance : ApiService by lazy {
         val retrofit = Retrofit.Builder()
@@ -22,6 +23,17 @@ object ApiClient {
             .build()
 
         retrofit.create(ApiService::class.java)
+    }
+
+    // contoh penggunaan 2 endpoint API
+    val instanceApiNews : ApiServiceNews by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL_NEWS)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        retrofit.create(ApiServiceNews::class.java)
     }
 
 

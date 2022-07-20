@@ -32,6 +32,26 @@ class NewPostPresenter(private val listener: Listener) {
 
             })
 
+
+        // contoh penggunaan 2 endpoint API
+//        ApiClient.instanceApiNews.postContent(responsePost)
+//            .enqueue(object : Callback<ResponsePost> {
+//                override fun onResponse(
+//                    call: Call<ResponsePost>,
+//                    response: Response<ResponsePost>
+//                ) {
+//                    if(response.isSuccessful)
+//                        listener.onAddContentSuccess("sukses menambah post")
+//                    else
+//                        listener.onAddContentFailed("gagal menambah post")
+//                }
+//
+//                override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
+//                    listener.onAddContentFailed("gagal menambah post")
+//                }
+//
+//            })
+
     }
 
     interface Listener {
