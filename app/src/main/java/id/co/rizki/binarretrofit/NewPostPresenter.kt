@@ -1,5 +1,6 @@
 package id.co.rizki.binarretrofit
 
+import id.co.rizki.binarretrofit.model.RegisterResponse
 import id.co.rizki.binarretrofit.model.ResponsePost
 import id.co.rizki.binarretrofit.network.ApiClient
 import retrofit2.Call
@@ -51,6 +52,29 @@ class NewPostPresenter(private val listener: Listener) {
 //                }
 //
 //            })
+
+        // CONTOH HANDLE ERROR CASE CHALLENGE
+//        ApiClient.instance.testAPI().enqueue(object : Callback<RegisterResponse> {
+//            override fun onResponse(
+//                call: Call<RegisterResponse>,
+//                response: Response<RegisterResponse>
+//            ) {
+//                if(response.isSuccessful) {
+//                    // execute code success
+//                } else {
+//                    val body = response.body()
+//
+//                    body?.error?.let {
+//                        listener.onAddContentFailed(it)
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+//                listener.onAddContentFailed("gagal request")
+//            }
+//
+//        })
 
     }
 
