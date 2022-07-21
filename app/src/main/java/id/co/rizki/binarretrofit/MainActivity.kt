@@ -5,14 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.co.rizki.binarretrofit.databinding.ActivityMainBinding
 import id.co.rizki.binarretrofit.model.ResponseGetItem
 
-class MainActivity : AppCompatActivity(), MainPresenter.Listener {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivityMainBinding
-    private lateinit var presenter: MainPresenter
+    private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +22,36 @@ class MainActivity : AppCompatActivity(), MainPresenter.Listener {
         setContentView(binding.root)
 
         setupComponent()
+        observeValue()
+    }
+
+    private fun observeValue() {
+        viewModel.contentItem.observe(this) {
+            binding.pbLoading.visibility = View.GONE
+            adapter.addContentList(it.toMutableList())
+
+        }
+
+        viewModel.errorMessage.observe(this) { event ->
+            binding.pbLoading.visibility = View.GONE
+            
+            event.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
     override fun onStart() {
         super.onStart()
 
-        presenter.getContentList()
+        viewModel.getContentList()
         binding.pbLoading.visibility = View.VISIBLE
 
     }
 
     private fun setupComponent() {
-        presenter = MainPresenter(this)
+        viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(MainViewModel::class.java)
         adapter = MainAdapter()
 
         binding.rvContent.setHasFixedSize(true)
@@ -43,15 +62,5 @@ class MainActivity : AppCompatActivity(), MainPresenter.Listener {
             startActivity(Intent(this,NewPostActivity::class.java))
         }
 
-    }
-
-    override fun onGetContentListSuccess(contentList: MutableList<ResponseGetItem>) {
-        binding.pbLoading.visibility = View.GONE
-        adapter.addContentList(contentList)
-    }
-
-    override fun onGetContentListFailed(message: String) {
-        binding.pbLoading.visibility = View.GONE
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

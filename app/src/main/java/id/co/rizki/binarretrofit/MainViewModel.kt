@@ -1,5 +1,7 @@
 package id.co.rizki.binarretrofit
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import id.co.rizki.binarretrofit.model.ResponseGetItem
 import id.co.rizki.binarretrofit.network.ApiClient
 import retrofit2.Call
@@ -8,9 +10,13 @@ import retrofit2.Response
 
 
 /**
- * Created by Rizky Putra on 20/07/22.
+ * Created by Rizky Putra on 21/07/22.
  */
-class MainPresenter(val listener: Listener) {
+class MainViewModel : ViewModel() {
+
+    val contentItem : MutableLiveData<List<ResponseGetItem>> = MutableLiveData()
+
+    val errorMessage : MutableLiveData<Event<String>> = MutableLiveData()
 
     fun getContentList() {
         ApiClient.instance.getAllContentList().enqueue(object : Callback<List<ResponseGetItem>> {
@@ -22,13 +28,13 @@ class MainPresenter(val listener: Listener) {
                 if(response.isSuccessful) {
                     val body = response.body()
                     body?.let {
-                        listener.onGetContentListSuccess(body.toMutableList())
+                        contentItem.postValue(it.toMutableList())
                     }
-                } else listener.onGetContentListFailed("Gagal mengambil data")
+                } else errorMessage.postValue(Event("Gagal mengambil data"))
             }
 
             override fun onFailure(call: Call<List<ResponseGetItem>>, t: Throwable) {
-                listener.onGetContentListFailed("Gagal mengambil data")
+                errorMessage.postValue(Event("Gagal mengambil data"))
             }
 
         })
@@ -36,10 +42,4 @@ class MainPresenter(val listener: Listener) {
 
     }
 
-
-
-    interface Listener {
-        fun onGetContentListSuccess(contentList: MutableList<ResponseGetItem>)
-        fun onGetContentListFailed(message: String)
-    }
 }

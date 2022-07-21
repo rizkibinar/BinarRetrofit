@@ -1,6 +1,9 @@
 package id.co.rizki.binarretrofit
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import id.co.rizki.binarretrofit.model.RegisterResponse
+import id.co.rizki.binarretrofit.model.ResponseGetItem
 import id.co.rizki.binarretrofit.model.ResponsePost
 import id.co.rizki.binarretrofit.network.ApiClient
 import retrofit2.Call
@@ -11,7 +14,10 @@ import retrofit2.Response
 /**
  * Created by Rizky Putra on 20/07/22.
  */
-class NewPostPresenter(private val listener: Listener) {
+class NewPostViewModel() : ViewModel(){
+
+    val responseData : MutableLiveData<Event<String>> = MutableLiveData()
+    val responseDataError : MutableLiveData<Event<String>> = MutableLiveData()
 
     fun addNewContent(responsePost: ResponsePost) {
 
@@ -22,13 +28,13 @@ class NewPostPresenter(private val listener: Listener) {
                     response: Response<ResponsePost>
                 ) {
                     if(response.isSuccessful)
-                        listener.onAddContentSuccess("sukses menambah post")
+                        responseData.postValue(Event("sukses menambah post"))
                     else
-                        listener.onAddContentFailed("gagal menambah post")
+                        responseDataError.postValue(Event("gagal menambah post"))
                 }
 
                 override fun onFailure(call: Call<ResponsePost>, t: Throwable) {
-                    listener.onAddContentFailed("gagal menambah post")
+                    responseDataError.postValue(Event("gagal menambah post"))
                 }
 
             })
@@ -78,8 +84,4 @@ class NewPostPresenter(private val listener: Listener) {
 
     }
 
-    interface Listener {
-        fun onAddContentSuccess(message: String)
-        fun onAddContentFailed(message: String)
-    }
 }
